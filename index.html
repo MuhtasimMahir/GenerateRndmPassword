@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Generate a <br> <span>Random Password</span> </h1>
+        <div class="display">
+            
+                <input type="password" id="password" placeholder="Password" readonly>
+            
+            
+            <div class="images">
+                <img class="viewImg" onclick="togglePasswordVisibility()" src="images/view.png">
+                <img onclick="copyPassword()" src="images/copy.png" id="togglePassword">
+            </div>
+        </div>
+        <button onclick="createPassword()"><img src="images/generate.png">Generate Password</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+    document.getElementById('password').blur();
+};
+        const passwordBox = document.getElementById("password");
+        const length = 12;
+
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const number = "0123456789";
+        const symbol = "!@#$%^&*()_<>/|~-=+[]{}";
+
+        const allChars = upperCase + lowerCase + number + symbol;
+
+        function shuffleString(str) {
+            return str.split('').sort(() => Math.random() - 0.5).join('');
+        }
+
+        function createPassword() {
+            let password = "";
+            password += upperCase[Math.floor(Math.random() * upperCase.length)];
+            password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+            password += number[Math.floor(Math.random() * number.length)];
+            password += symbol[Math.floor(Math.random() * symbol.length)];
+
+            while (password.length < length) {
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+            }
+
+            password = shuffleString(password);
+            passwordBox.value = password;
+        }
+
+        function copyPassword() {
+            passwordBox.select();
+            document.execCommand("copy");
+        }
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            console.log('Current type:', passwordField.getAttribute('type')); // Debugging line
+            passwordField.setAttribute('type', type);
+            console.log('New type:', passwordField.getAttribute('type')); // Debugging line
+        }
+
+    </script>
+    
+</body>
+</html>
